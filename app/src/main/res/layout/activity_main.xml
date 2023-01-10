@@ -18,8 +18,8 @@
             android:layout_marginStart="@dimen/_8sdp"
             android:layout_marginTop="@dimen/_8sdp"
             android:layout_marginEnd="@dimen/_8sdp"
-            android:layout_marginBottom="@dimen/_8sdp"
             android:animateLayoutChanges="true"
+            android:visibility="gone"
             android:backgroundTint="@color/ghost_white"
             app:cardCornerRadius="@dimen/_10sdp">
 
@@ -72,10 +72,11 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvAthlete"
+            android:id="@+id/rvForAskedQuestion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/cvQuestionCard"
+            android:layout_above="@+id/iViewBottom"
             android:overScrollMode="never" />
 
         <include
@@ -84,6 +85,13 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_44sdp"
             android:layout_alignParentBottom="true" />
+
+        <include
+            android:id="@+id/iLoader"
+            layout="@layout/view_loader"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible" />
 
     </RelativeLayout>
 </layout>
