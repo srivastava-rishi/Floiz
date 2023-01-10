@@ -5,13 +5,12 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Filterable
-import android.widget.ImageView
-import android.widget.TextView
+import android.view.animation.AnimationUtils
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.google.android.material.card.MaterialCardView
 import com.rsstudio.flobiz.R
 import com.rsstudio.flobiz.data.network.model.Item
 import com.rsstudio.flobiz.util.TimeUtil
@@ -32,6 +31,8 @@ class MainAdapter(
         var tvUsername: TextView = view.findViewById(R.id.tvUsername)
         var tvPublicationTime: TextView = view.findViewById(R.id.tvPublicationTime)
         var userPic: ImageView = view.findViewById(R.id.civUserPic)
+
+        var container: MaterialCardView = view.findViewById(R.id.mcvMain)
 
 
         @SuppressLint("SetTextI18n", "ResourceAsColor")
@@ -64,28 +65,62 @@ class MainAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        val item = list[position]
+        val item = questionFilteredList[position]
         if (holder is MainAdapter.ItemViewHolder) {
+            holder.container.animation = AnimationUtils.loadAnimation(context,R.anim.anim_fade_scale)
             holder.onBind(item,position)
         }
     }
 
     fun submitList(newList: List<Item>, sortType: Int) {
         list.clear()
+        questionFilteredList.clear()
         list.addAll(newList)
+        questionFilteredList.addAll(newList)
+        notifyDataSetChanged()
     }
 
 
 
     override fun getItemCount(): Int {
-        if (list.size != 0) {
-            return list.size
+        if (questionFilteredList.size != 0) {
+            return questionFilteredList.size
         }
         return 0
     }
 
     override fun getFilter(): Filter {
-        TODO("Not yet implemented")
+
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+
+                val charString = constraint?.toString() ?: ""
+
+                if(charString.isEmpty()){
+                    questionFilteredList.clear()
+                    questionFilteredList.addAll(list)
+                } else{
+
+                    var filteredList:  MutableList<Item> = mutableListOf()
+
+                    list.filter {
+                        (it.title.lowercase().startsWith(constraint.toString().lowercase().trim()) || it.owner.display_name.lowercase().startsWith(constraint.toString().lowercase().trim()))
+                    }.forEach{ filteredList.add(it)}
+                    questionFilteredList = filteredList
+                }
+
+                return FilterResults().apply { values = questionFilteredList }
+
+            }
+            override fun publishResults(constraint: CharSequence, results: FilterResults?) {
+                if (results!!.values != null) {
+                    questionFilteredList = results.values as MutableList<Item>
+                    notifyDataSetChanged()
+                }
+
+            }
+        }
+
     }
 
 }
