@@ -4,14 +4,18 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/rishi/Desktop/CompanyApps/f/app/src/main/res/drawable/filled_circle.xml" value="0.1955" />
+        <entry key="..\:/Users/rishi/Desktop/CompanyApps/f/app/src/main/res/drawable/ic_back.xml" value="0.1955" />
         <entry key="..\:/Users/rishi/Desktop/CompanyApps/f/app/src/main/res/drawable/ic_close.xml" value="0.1955" />
         <entry key="..\:/Users/rishi/Desktop/CompanyApps/f/app/src/main/res/drawable/ic_undraw_into_the_night_vumi.xml" value="0.15" />
         <entry key="..\:/Users/rishi/Desktop/CompanyApps/f/app/src/main/res/drawable/ripple_1005.xml" value="0.15" />
+        <entry key="..\:/Users/rishi/Desktop/CompanyApps/f/app/src/main/res/drawable/ripple_1006.xml" value="0.1955" />
         <entry key="..\:/Users/rishi/Desktop/CompanyApps/f/app/src/main/res/drawable/ripple_light.xml" value="0.219" />
         <entry key="..\:/Users/rishi/Desktop/CompanyApps/f/app/src/main/res/layout/activity_base.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/rishi/Desktop/CompanyApps/f/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Users/rishi/Desktop/CompanyApps/f/app/src/main/res/layout/activity_splash.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/rishi/Desktop/CompanyApps/f/app/src/main/res/layout/activity_web_view.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/rishi/Desktop/CompanyApps/f/app/src/main/res/layout/view_ads.xml" value="0.4" />
+        <entry key="..\:/Users/rishi/Desktop/CompanyApps/f/app/src/main/res/layout/view_app_bar.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/rishi/Desktop/CompanyApps/f/app/src/main/res/layout/view_bottom.xml" value="0.4" />
         <entry key="..\:/Users/rishi/Desktop/CompanyApps/f/app/src/main/res/layout/view_loader.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/rishi/Desktop/CompanyApps/f/app/src/main/res/layout/view_player_data.xml" value="0.23854166666666668" />

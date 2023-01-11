@@ -1,5 +1,6 @@
 package com.rsstudio.flobiz.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -17,6 +18,7 @@ import com.rsstudio.flobiz.databinding.ActivityMainBinding
 import com.rsstudio.flobiz.ui.base.BaseActivity
 import com.rsstudio.flobiz.ui.main.adapter.MainAdapter
 import com.rsstudio.flobiz.ui.main.viewModel.MainViewModel
+import com.rsstudio.flobiz.ui.webView.WebViewActivity
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.FieldPosition
 
@@ -106,6 +108,12 @@ class MainActivity : BaseActivity() , MainAdapter.MainAdapterListener  {
         tv.text = (pref.getRemoveAdsValue() - 1).toString()
         pref.saveRemoveAdsValue(pref.getRemoveAdsValue() - 1)
         }
+    }
+
+    override fun openWebView(link: String) {
+        val intent = Intent(this@MainActivity, WebViewActivity::class.java)
+        intent.putExtra("link",link)
+        startActivity(intent)
     }
 
 

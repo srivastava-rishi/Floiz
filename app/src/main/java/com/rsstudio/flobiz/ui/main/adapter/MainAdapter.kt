@@ -55,6 +55,10 @@ class MainAdapter(
                 tvUsername!!.text = item.owner!!.display_name
                 tvPublicationTime!!.text = item.creation_date?.let { TimeUtil.getTime(it) }
 
+                container!!.setOnClickListener {
+                    item.link?.let { it1 -> listener.openWebView(it1) }
+                }
+
                 // setting image
                 userPic?.let {
                     Glide
@@ -161,12 +165,12 @@ class MainAdapter(
 
     fun removeItem(position: Int){
         questionFilteredList.removeAt(position)
-//        notifyItemChanged(position)
         notifyDataSetChanged()
     }
 
     interface MainAdapterListener {
         fun onRemoveAdClicked(tv: TextView ,frameLayout: FrameLayout,position: Int)
+        fun openWebView(link:String)
     }
 
 
