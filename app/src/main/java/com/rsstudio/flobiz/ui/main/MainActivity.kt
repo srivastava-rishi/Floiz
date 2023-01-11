@@ -5,9 +5,12 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.card.MaterialCardView
 import com.rsstudio.flobiz.R
 import com.rsstudio.flobiz.data.network.model.Item
 import com.rsstudio.flobiz.databinding.ActivityMainBinding
@@ -15,9 +18,10 @@ import com.rsstudio.flobiz.ui.base.BaseActivity
 import com.rsstudio.flobiz.ui.main.adapter.MainAdapter
 import com.rsstudio.flobiz.ui.main.viewModel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.FieldPosition
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity()  {
+class MainActivity : BaseActivity() , MainAdapter.MainAdapterListener  {
 
     lateinit var binding: ActivityMainBinding
 
@@ -72,7 +76,7 @@ class MainActivity : BaseActivity()  {
         val llm = LinearLayoutManager(this)
         binding.rvForAskedQuestion.setHasFixedSize(true)
         binding.rvForAskedQuestion.layoutManager = llm
-        mainAdapter = MainAdapter(this)
+        mainAdapter = MainAdapter(this,this,pref)
         binding.rvForAskedQuestion.adapter = mainAdapter
     }
 
@@ -94,6 +98,15 @@ class MainActivity : BaseActivity()  {
 
     }
 
+    override fun onRemoveAdClicked(tv: TextView, frameLayout: FrameLayout,position: Int) {
+
+        if (pref.getRemoveAdsValue() < 1 ){
+          mainAdapter.removeItem(position)
+        }else{
+        tv.text = (pref.getRemoveAdsValue() - 1).toString()
+        pref.saveRemoveAdsValue(pref.getRemoveAdsValue() - 1)
+        }
+    }
 
 
 }

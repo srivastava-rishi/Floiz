@@ -16,7 +16,7 @@ constructor(
 
         const val REMOVE_ADS = "remove_ads"
         // default value
-        const val DFT_ADS_VALUE : Int = 0
+        const val DFT_ADS_VALUE : Int = 4
     }
 
     private val preference: SharedPreferences

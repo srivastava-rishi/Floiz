@@ -13,11 +13,14 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.card.MaterialCardView
 import com.rsstudio.flobiz.R
+import com.rsstudio.flobiz.data.local.preference.PreferenceProvider
 import com.rsstudio.flobiz.data.network.model.Item
 import com.rsstudio.flobiz.util.TimeUtil
 
 class MainAdapter(
     private var context: Context,
+    private var listener: MainAdapterListener,
+    var pref: PreferenceProvider
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
 
     private var list: MutableList<Item> = mutableListOf()
@@ -33,6 +36,8 @@ class MainAdapter(
         var tvPublicationTime: TextView? = view.findViewById(R.id.tvPublicationTime)
         var userPic: ImageView? = view.findViewById(R.id.civUserPic)
         var tvAdCount: TextView? = view.findViewById(R.id.tvAdCount)
+        var ivRemove: ImageView? = view.findViewById(R.id.ivRemove)
+        var flRoot: FrameLayout? = view.findViewById(R.id.flRoot)
 
         var container: MaterialCardView? = view.findViewById(R.id.mcvMain)
 
@@ -41,10 +46,10 @@ class MainAdapter(
         fun onBind(item: Item,position: Int) {
 
             if (item.content_license.equals("ADVERTISEMENT")){
-                Log.d(logTag, "onBind: line no 44$item")
-                Log.d(logTag, "onBind: line no 44$position")
-                tvAdCount!!.text = "5"
-                Log.d(logTag, "onBind: " + "line no 43")
+
+                ivRemove!!.setOnClickListener {
+                    listener.onRemoveAdClicked(tvAdCount!!,flRoot!!,position)
+                }
             }else {
                 tvQuestionTitle!!.text = item.title
                 tvUsername!!.text = item.owner!!.display_name
@@ -95,6 +100,7 @@ class MainAdapter(
         var type: Int = questionFilteredList[position].type
 
         if(type == 1){
+
           return 1;
         }
         return 0;
@@ -110,7 +116,9 @@ class MainAdapter(
 
     override fun getItemCount(): Int {
         if (questionFilteredList.size != 0) {
-            Log.d(logTag, "onBind: " + "line no" + questionFilteredList.size)
+            if (pref.getRemoveAdsValue() == 0){
+                return questionFilteredList.size - 1
+            }
             return questionFilteredList.size
         }
         return 0
@@ -131,7 +139,8 @@ class MainAdapter(
                     var filteredList:  MutableList<Item> = mutableListOf()
 
                     list.filter {
-                        (it.title!!.lowercase().startsWith(constraint.toString().lowercase().trim()) || it.owner!!.display_name.lowercase().startsWith(constraint.toString().lowercase().trim()))
+                        it.type == 0 &&
+                                (it.title!!.lowercase().startsWith(constraint.toString().lowercase().trim()) || it.owner!!.display_name.lowercase().startsWith(constraint.toString().lowercase().trim()))
                     }.forEach{ filteredList.add(it)}
                     questionFilteredList = filteredList
                 }
@@ -149,6 +158,17 @@ class MainAdapter(
         }
 
     }
+
+    fun removeItem(position: Int){
+        questionFilteredList.removeAt(position)
+//        notifyItemChanged(position)
+        notifyDataSetChanged()
+    }
+
+    interface MainAdapterListener {
+        fun onRemoveAdClicked(tv: TextView ,frameLayout: FrameLayout,position: Int)
+    }
+
 
 }
 
