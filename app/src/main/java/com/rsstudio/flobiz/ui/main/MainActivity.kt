@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rsstudio.flobiz.R
+import com.rsstudio.flobiz.data.network.model.Item
 import com.rsstudio.flobiz.databinding.ActivityMainBinding
 import com.rsstudio.flobiz.ui.base.BaseActivity
 import com.rsstudio.flobiz.ui.main.adapter.MainAdapter
@@ -24,18 +25,26 @@ class MainActivity : BaseActivity()  {
 
     private lateinit var mainAdapter: MainAdapter
 
+    var temp = 0
+
     private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         //
+        getValue()
         initRecyclerView()
         initView()
         initObservers()
 
     }
 
+    private fun getValue() {
+
+      temp = pref.getRemoveAdsValue()
+
+    }
 
     private fun initObservers() {
 
@@ -43,7 +52,15 @@ class MainActivity : BaseActivity()  {
 
             if (it != null) {
                 Log.d(logTag, "initObservers: " + it.items[0].creation_date)
-                mainAdapter.submitList(it.items,0)
+                var list: MutableList<Item> = mutableListOf()
+
+                    var ad = Item(
+                        content_license = "ADVERTISEMENT",
+                        type = 1
+                    )
+                    list.addAll(it.items)
+                    list.add(ad)
+                mainAdapter.submitList(list,0)
                 binding.iLoader.visibility = View.GONE
                 binding.cvQuestionCard.visibility = View.VISIBLE
             }
